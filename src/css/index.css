@@ -1,0 +1,195 @@
+/* Root variables for futuristic theming */
+:root {
+  /* Typography */
+  --font-family: 'Exo 2', 'Orbitron', system-ui, sans-serif;
+  --line-height: 1.5;
+  --font-weight-base: 400;
+  --font-weight-bold: 600;
+
+  /* Colors */
+  --black-bg: #0a0a0a;
+  --white: #ffffff;
+  --gray-dark: rgba(255, 255, 255, 0.1);
+  --gray-text: rgba(255, 255, 255, 0.85);
+  --glow-white: rgba(255, 255, 255, 0.2);
+  --link-color: #ffffff;
+  --link-hover: rgba(255, 255, 255, 0.7);
+
+  /* Sizes */
+  --spacing-unit: 1em;
+  --border-radius: 6px;
+
+  /* Base styles */
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  font-weight: var(--font-weight-base);
+  color-scheme: dark; /* Enforcing dark mode only */
+  color: var(--gray-text);
+  background: radial-gradient(
+    circle at top center,
+    rgba(255, 255, 255, 0.03) 0%,
+    var(--black-bg) 70%
+  ); /* Futuristic radial bg */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base elements */
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background: var(--black-bg);
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  backdrop-filter: blur(2px); /* Subtle glass effect */
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray-dark);
+}
+
+/* Links */
+a {
+  font-weight: var(--font-weight-bold);
+  color: var(--link-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  letter-spacing: 0.03em;
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-shadow: 0 0 8px var(--glow-white);
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--white);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Headings */
+h1 {
+  font-size: clamp(2.5em, 8vw, 3.2em);
+  line-height: 1.1;
+  margin-bottom: calc(var(--spacing-unit) * 0.5);
+  color: var(--white);
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px var(--glow-white);
+}
+
+/* Buttons */
+button {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--glow-white);
+  padding: calc(var(--spacing-unit) * 0.6) calc(var(--spacing-unit) * 1.2);
+  font-size: 1em;
+  font-weight: var(--font-weight-bold);
+  font-family: 'Exo 2', sans-serif;
+  background-color: var(--gray-dark);
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+button:hover {
+  border-color: var(--white);
+  box-shadow: 0 0 12px var(--glow-white);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+button:hover::before {
+  transform: translateX(100%);
+}
+
+button:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--glow-white);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(80%);
+}
+
+/* Animation for page load */
+body {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

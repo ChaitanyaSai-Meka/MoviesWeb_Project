@@ -1,0 +1,175 @@
+/* Root variables for futuristic theming */
+:root {
+  --spacing-unit: 1rem;
+  --black-bg: #0f0f0f;
+  --white: #ffffff;
+  --gray-dark: #2a2a2a;
+  --gray-focus: rgba(255, 255, 255, 0.2);
+  --max-width: 600px;
+  --glow-white: rgba(255, 255, 255, 0.1);
+}
+
+/* Home section */
+.home {
+  padding: calc(var(--spacing-unit) * 2) 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02),
+    var(--black-bg)
+  ); /* Subtle futuristic gradient */
+  border-bottom: 1px solid var(--glow-white);
+}
+
+/* Search form */
+.search-form {
+  max-width: var(--max-width);
+  margin: 0 auto calc(var(--spacing-unit) * 2);
+  display: flex;
+  gap: var(--spacing-unit);
+  padding: 0 var(--spacing-unit);
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+}
+
+/* Search input */
+.search-input {
+  flex: 1;
+  padding: calc(var(--spacing-unit) * 0.75) var(--spacing-unit);
+  border: 1px solid var(--glow-white);
+  border-radius: 4px;
+  background-color: var(--gray-dark);
+  color: var(--white);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'Exo 2', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 8px var(--gray-focus);
+  border-color: var(--white);
+  background-color: #333;
+}
+
+.search-input::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.search-input:focus::after {
+  transform: translateX(100%);
+}
+
+/* Search button */
+.search-button {
+  padding: calc(var(--spacing-unit) * 0.75) calc(var(--spacing-unit) * 1.5);
+  background-color: var(--black-bg);
+  color: var(--white);
+  border: 1px solid var(--glow-white);
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  border-color: var(--white);
+}
+
+.search-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.search-button:hover::before {
+  transform: scaleX(1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 639px) {
+  .home {
+    padding: var(--spacing-unit) 0;
+  }
+
+  .search-form {
+    flex-direction: column;
+    margin-bottom: var(--spacing-unit);
+    padding: calc(var(--spacing-unit) * 0.5);
+  }
+
+  .search-button {
+    width: 100%;
+  }
+}
+
+/* Movies grid */
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: calc(var(--spacing-unit) * 1.5);
+  padding: var(--spacing-unit);
+  width: 100%;
+  box-sizing: border-box;
+  animation: gridFadeIn 0.5s ease-out;
+}
+
+.movies-grid > * {
+  transition: transform 0.3s ease;
+}
+
+.movies-grid > *:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+/* Larger screens */
+@media (min-width: 1200px) {
+  .movies-grid {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+}
+
+/* Animation */
+@keyframes gridFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

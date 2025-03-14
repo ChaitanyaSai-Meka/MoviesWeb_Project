@@ -1,0 +1,193 @@
+/* Root variables for futuristic theming */
+:root {
+  --black-bg: #0a0a0a;
+  --white: #ffffff;
+  --gray-dark: rgba(255, 255, 255, 0.1);
+  --glow-white: rgba(255, 255, 255, 0.2);
+  --spacing-unit: 1rem;
+  --border-radius: 8px;
+  --text-muted: rgba(255, 255, 255, 0.6);
+}
+
+/* Movie card container */
+.movie-card {
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--black-bg);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glow-white);
+  animation: cardFadeIn 0.4s ease-out;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+}
+
+/* Poster */
+.movie-poster {
+  position: relative;
+  aspect-ratio: 2/3;
+  width: 100%;
+  background-color: #1a1a1a; /* Fallback for loading */
+  overflow: hidden;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover .movie-poster img {
+  transform: scale(1.05);
+}
+
+/* Overlay */
+.movie-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05),
+    var(--black-bg)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--spacing-unit);
+  backdrop-filter: blur(2px);
+}
+
+.movie-card:hover .movie-overlay {
+  opacity: 1;
+}
+
+/* Favorite button */
+.favorite-btn {
+  position: absolute;
+  top: var(--spacing-unit);
+  right: var(--spacing-unit);
+  color: var(--white);
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 1px solid var(--glow-white);
+  cursor: pointer;
+  z-index: 1;
+}
+
+.favorite-btn:hover {
+  background-color: var(--gray-dark);
+  box-shadow: 0 0 10px var(--glow-white);
+  transform: scale(1.1);
+}
+
+.favorite-btn.active {
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--white);
+  text-shadow: 0 0 8px var(--glow-white);
+}
+
+/* Rating dropdown */
+.rating-select {
+  background-color: var(--gray-dark);
+  color: var(--white);
+  border: 1px solid var(--glow-white);
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 2rem;
+  font-family: 'Exo 2', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.rating-select:hover {
+  border-color: var(--white);
+  box-shadow: 0 0 8px var(--glow-white);
+}
+
+/* Movie info */
+.movie-info {
+  padding: var(--spacing-unit);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing-unit) * 0.5);
+  background: linear-gradient(to top, var(--black-bg), transparent);
+}
+
+.movie-info h3 {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--white);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 4px var(--glow-white);
+}
+
+.movie-info p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+  font-family: 'Exo 2', sans-serif;
+}
+
+.user-rating {
+  color: var(--white);
+  font-size: 0.9rem;
+  margin-top: auto;
+  text-shadow: 0 0 6px var(--glow-white);
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .movie-card {
+    font-size: 0.9rem;
+    --spacing-unit: 0.75rem;
+  }
+
+  .favorite-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Animation */
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
