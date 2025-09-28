@@ -18,7 +18,7 @@
     to bottom,
     rgba(255, 255, 255, 0.02),
     var(--black-bg)
-  ); /* Subtle futuristic gradient */
+  );
   border-bottom: 1px solid var(--glow-white);
 }
 

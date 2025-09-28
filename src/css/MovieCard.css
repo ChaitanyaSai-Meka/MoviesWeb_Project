@@ -34,7 +34,7 @@
   position: relative;
   aspect-ratio: 2/3;
   width: 100%;
-  background-color: #1a1a1a; /* Fallback for loading */
+  background-color: #1a1a1a; 
   overflow: hidden;
 }
 
