@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebaase/firebase';
+import { initializeUserData } from '../services/userService';
 import './LoginSignup.css';
 
 const LoginSignup = () => {
@@ -11,7 +12,11 @@ const LoginSignup = () => {
     try {
       setLoading(true);
       setError('');
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      
+      // Initialize user data in Firestore
+      await initializeUserData(result.user);
+      
     } catch (error) {
       setError(error.message);
     } finally {
