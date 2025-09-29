@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '../firebaase/firebase';
+import { auth } from '../firebase/firebase';
 import { getUserData } from '../services/userService';
 import '../css/Profile.css';
 

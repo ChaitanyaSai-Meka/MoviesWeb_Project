@@ -1,43 +1,97 @@
-import { createContext,useState,useEffect,useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+import { 
+    addToFavorites as addToFavoritesDB, 
+    removeFromFavorites as removeFromFavoritesDB,
+    isInFavorites as isInFavoritesDB,
+    getUserData 
+} from "../services/userService";
 
-const MovieContext=createContext()
+const MovieContext = createContext();
 
-export const useMovieContext = () => useContext(MovieContext)
+export const useMovieContext = () => useContext(MovieContext);
 
-export const MovieProvider= ({children}) => {
-    const[favorites,setFavorites] = useState([])
-    
-    useEffect(()=>{
-        const storedFavs=localStorage.getItem("favorites")
+export const MovieProvider = ({ children }) => {
+    const [favorites, setFavorites] = useState([]);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-        if(storedFavs) setFavorites(JSON.parse(storedFavs))
-    },[])
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+        });
 
-    useEffect(()=>{
-        localStorage.setItem('favorites',JSON.stringify(favorites))
-    },[favorites])
+        return () => unsubscribe();
+    }, []);
 
-    const addToFavorites = (movie)=>{
-        setFavorites(prev => [...prev, movie])
-    }
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            if (user) {
+                try {
+                    const userData = await getUserData(user.uid);
+                    setFavorites(userData.favorites || []);
+                } catch (error) {
+                    console.error('Error fetching favorites:', error);
+                    setFavorites([]);
+                }
+            } else {
+                setFavorites([]);
+            }
+        };
 
-    const removeFromFavorites = (movieId) => {
-        setFavorites(prev => prev.filter(movie => movie.id !==movieId))
-    }
+        fetchFavorites();
+    }, [user]);
 
-    const isFavorite = (movieId)=>{
-        return favorites.some(movie => movie.id === movieId)
-    }
+    const addToFavorites = async (movie) => {
+        if (!user) {
+            console.error('User not authenticated');
+            return;
+        }
+
+        try {
+            await addToFavoritesDB(user.uid, movie.title);
+            setFavorites(prev => [...prev, movie]);
+        } catch (error) {
+            console.error('Error adding to favorites:', error);
+        }
+    };
+
+    const removeFromFavorites = async (movieId) => {
+        if (!user) {
+            console.error('User not authenticated');
+            return;
+        }
+
+        try {
+            const movie = favorites.find(m => m.id === movieId);
+            if (movie) {
+                await removeFromFavoritesDB(user.uid, movie.title);
+                setFavorites(prev => prev.filter(m => m.id !== movieId));
+            }
+        } catch (error) {
+            console.error('Error removing from favorites:', error);
+        }
+    };
+
+    const isFavorite = (movieId) => {
+        return favorites.some(movie => movie.id === movieId);
+    };
 
     const value = {
         favorites,
         addToFavorites,
         removeFromFavorites,
-        isFavorite
-    }
+        isFavorite,
+        user,
+        loading
+    };
     
-    return <MovieContext.Provider value={value}>
-        {children}
-    </MovieContext.Provider>
-}
+    return (
+        <MovieContext.Provider value={value}>
+            {children}
+        </MovieContext.Provider>
+    );
+};
 

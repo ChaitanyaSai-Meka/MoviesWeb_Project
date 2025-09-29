@@ -2,13 +2,21 @@ import '../css/MovieCard.css'
 import { useMovieContext } from '../contexts/MovieContext'
 
 function MovieCard({movie}) {
-    const {isFavorite, addToFavorites, removeFromFavorites} = useMovieContext()
+    const {isFavorite, addToFavorites, removeFromFavorites, user} = useMovieContext()
     const favorite = isFavorite(movie.id)
 
-    function onFavoriteClick(e) {
+    async function onFavoriteClick(e) {
         e.preventDefault()
-        if (favorite) removeFromFavorites(movie.id)
-        else addToFavorites(movie)
+        if (!user) {
+            console.error('User not authenticated');
+            return;
+        }
+        
+        if (favorite) {
+            await removeFromFavorites(movie.id)
+        } else {
+            await addToFavorites(movie)
+        }
     }
 
     return <div className="movie-card">

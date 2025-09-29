@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '../firebaase/firebase';
+import { auth, googleProvider } from '../firebase/firebase';
 import { initializeUserData } from '../services/userService';
 import './LoginSignup.css';
 

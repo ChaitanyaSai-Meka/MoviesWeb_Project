@@ -1,5 +1,5 @@
 import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
-import { db } from '../firebaase/firebase';
+import { db } from '../firebase/firebase';
 
 export const initializeUserData = async (user) => {
   try {
