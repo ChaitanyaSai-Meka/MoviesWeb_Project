@@ -6,15 +6,17 @@ import Favorites from './pages/favorites';
 import NavBar from './components/navbar';
 import Profile from './pages/profile';
 import LoginSignup from './auth/login_signup';
+import NotFound from './pages/NotFound';
 import AuthMiddleware from './middleware/AuthMiddleware';
 
 function App() {
   const location = useLocation();
   const isLoginPage = location.pathname === '/login_signup';
+  const isNotFoundPage = location.pathname === '/404';
 
   return (
     <MovieProvider>
-      {!isLoginPage && <NavBar/>}
+      {!isLoginPage && !isNotFoundPage && <NavBar/>}
       <main className='main-content'>
         <Routes>
           <Route path='/' element={
@@ -37,6 +39,8 @@ function App() {
               <LoginSignup/>
             </AuthMiddleware>
           }/>
+          <Route path='/404' element={<NotFound/>}/>
+          <Route path='*' element={<NotFound/>}/>
         </Routes>
       </main>
     </MovieProvider>
