@@ -13,6 +13,7 @@ const MovieContext = createContext();
 export const useMovieContext = () => useContext(MovieContext);
 
 export const MovieProvider = ({ children }) => {
+    // favorites stores an array of movie titles
     const [favorites, setFavorites] = useState([]);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ export const MovieProvider = ({ children }) => {
             if (user) {
                 try {
                     const userData = await getUserData(user.uid);
-                    setFavorites(userData.favorites || []);
+                    setFavorites(userData.favorites || []); // titles
                 } catch (error) {
                     console.error('Error fetching favorites:', error);
                     setFavorites([]);
@@ -52,38 +53,35 @@ export const MovieProvider = ({ children }) => {
 
         try {
             await addToFavoritesDB(user.uid, movie.title);
-            setFavorites(prev => [...prev, movie]);
+            setFavorites(prev => prev.includes(movie.title) ? prev : [...prev, movie.title]);
         } catch (error) {
             console.error('Error adding to favorites:', error);
         }
     };
 
-    const removeFromFavorites = async (movieId) => {
+    const removeFromFavorites = async (movieTitle) => {
         if (!user) {
             console.error('User not authenticated');
             return;
         }
 
         try {
-            const movie = favorites.find(m => m.id === movieId);
-            if (movie) {
-                await removeFromFavoritesDB(user.uid, movie.title);
-                setFavorites(prev => prev.filter(m => m.id !== movieId));
-            }
+            await removeFromFavoritesDB(user.uid, movieTitle);
+            setFavorites(prev => prev.filter(title => title !== movieTitle));
         } catch (error) {
             console.error('Error removing from favorites:', error);
         }
     };
 
-    const isFavorite = (movieId) => {
-        return favorites.some(movie => movie.id === movieId);
+    const isFavoriteTitle = (movieTitle) => {
+        return favorites.includes(movieTitle);
     };
 
     const value = {
-        favorites,
+        favorites, // array of titles
         addToFavorites,
         removeFromFavorites,
-        isFavorite,
+        isFavoriteTitle,
         user,
         loading
     };

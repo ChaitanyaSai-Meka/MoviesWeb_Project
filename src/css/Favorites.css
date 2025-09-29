@@ -118,6 +118,10 @@
     rgba(255, 255, 255, 0.02),
     transparent
   );
+  /* Fixed card widths and centered grid so few items don't stretch */
+  grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+  justify-content: center; /* center columns when few items */
+  align-content: start;
 }
 
 .movies-grid > * {
